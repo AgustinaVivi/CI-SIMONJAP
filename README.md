@@ -30,4 +30,4 @@ Web ini berisikan sistem informasi rekap jumlah penduduk Kota Malang yang didapa
 
     ``php index.php tools seed TotalPendudukSeeder``
 
-7. Untuk menjalankan aplikasi, buka browser anda lalu ketikkan alamat [localhost/simonjap](https://localhost/simonjap)
+7. Untuk menjalankan aplikasi, buka browser anda lalu ketikkan alamat [localhost/simonjap](http://localhost/simonjap)
