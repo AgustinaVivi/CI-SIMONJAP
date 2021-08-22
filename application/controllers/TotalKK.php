@@ -6,146 +6,130 @@ require FCPATH . '/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class Total extends CI_Controller
+class TotalKK extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->helper('date');
-        $this->load->model('PendudukModel', 'data_penduduk');
+        $this->load->model('KkModel', 'data_kk');
     }
 
     public function index()
     {
         $periode = (!empty($this->input->get('periode'))) ? $this->input->get('periode') : null;
-        $data['penduduk'] = $this->data_penduduk->getData($periode);
-        $this->load->view('pages/total', $data);
+        $data['total_kk'] = $this->data_kk->getData($periode);
+        $this->load->view('pages/total_kk', $data);
     }
 
     public function create()
     {
-        $this->load->view('pages/total-add');
+        $this->load->view('pages/total_kk-add');
     }
 
     public function store()
     {
         $kecamatan = $this->input->post('kecamatan');
-        $jk = $this->input->post('jenis_kelamin');
-        $warga_negara = $this->input->post('warga_negara');
         $periode = $this->input->post('periode');
-        $lahir = $this->input->post('lahir');
-        $mati = $this->input->post('mati');
-        $pendatang = $this->input->post('pendatang');
-        $pindah = $this->input->post('pindah');
-        $total = ($lahir + $pendatang) - ($mati + $pindah);
+        $jumlah_kk = $this->input->post('jumlah_kk');
+        $laki = $this->input->post('laki');
+        $perempuan = $this->input->post('perempuan');
+        $total = $laki + $perempuan;
 
         $data = array(
             'kecamatan_id' => $kecamatan,
-            'jenis_kelamin' => $jk,
-            'warga_negara' => $warga_negara,
             'periode' => $periode,
-            'lahir' => $lahir,
-            'mati' => $mati,
-            'pendatang' => $pendatang,
-            'pindah' => $pindah,
+            'jumlah_kk' => $jumlah_kk,
+            'l' => $laki,
+            'p' => $perempuan,
             'total' => $total,
             'created_at' => mdate('%Y-%m-%d %H:%i:%s', now()),
             'updated_at' => mdate('%Y-%m-%d %H:%i:%s', now())
         );
 
-        $query = $this->data_penduduk->insert($data);
+        $query = $this->data_kk->insert($data);
         if ($query) {
             $this->session->set_flashdata('msg', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Sukses!</strong> Data berhasil ditambahkan</p></div>');
-            redirect('total');
+            redirect('totalkk');
         } else {
             $this->session->set_flashdata('msg', '<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Gagal!</strong> Data gagal ditambahkan</p></div>');
-            redirect('total/create');
+            redirect('totalkk/create');
         }
     }
 
     public function edit($id)
     {
-        $data['penduduk'] = $this->data_penduduk->getTotal($id);
-        $data['kecamatan'] = $this->data_penduduk->getKecamatan();
-        $this->load->view('pages/total-edit', $data);
+        $data['total_kk'] = $this->data_kk->getTotal($id);
+        $data['kecamatan'] = $this->data_kk->getKecamatan();
+        $this->load->view('pages/total_kk-edit', $data);
     }
 
     public function update()
     {
-        $id_total = $this->input->post('id');
+        $id_totalkk = $this->input->post('id');
         $kecamatan = $this->input->post('kecamatan');
-        $jk = $this->input->post('jenis_kelamin');
-        $warga_negara = $this->input->post('warga_negara');
         $periode = $this->input->post('periode');
-        $lahir = $this->input->post('lahir');
-        $mati = $this->input->post('mati');
-        $pendatang = $this->input->post('pendatang');
-        $pindah = $this->input->post('pindah');
-        $total = ($lahir + $pendatang) - ($mati + $pindah);
+        $jumlah_kk = $this->input->post('jumlah_kk');
+        $laki = $this->input->post('laki');
+        $perempuan = $this->input->post('perempuan');
+        $total = $laki + $perempuan;
 
         $data = array(
             'kecamatan_id' => $kecamatan,
-            'jenis_kelamin' => $jk,
-            'warga_negara' => $warga_negara,
             'periode' => $periode,
-            'lahir' => $lahir,
-            'mati' => $mati,
-            'pendatang' => $pendatang,
-            'pindah' => $pindah,
+            'jumlah_kk' => $jumlah_kk,
+            'l' => $laki,
+            'p' => $perempuan,
             'total' => $total,
             'updated_at' => mdate('%Y-%m-%d %H:%i:%s', now())
         );
-        $query = $this->data_penduduk->update($id_total, $data);
+        $query = $this->data_kk->update($id_totalkk, $data);
         if ($query) {
             $this->session->set_flashdata('msg', '<div class="alert alert-info" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Sukses!</strong> Data berhasil diubah</p></div>');
-            redirect('total');
+            redirect('totalkk');
         }
     }
 
     public function destroy($id)
     {
-        $query = $this->data_penduduk->delete($id);
+        $query = $this->data_kk->delete($id);
         if ($query) {
             $this->session->set_flashdata('msg', '<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Sukses!</strong> Data berhasil dihapus</p></div>');
-            redirect('total', 'refresh');
+            redirect('totalkk', 'refresh');
         }
     }
 
     public function uploadFile()
     {
-        $this->load->view('pages/total-upload');
+        $this->load->view('pages/total_kk-upload');
     }
 
     public function spreadsheet_format_download()
     {
 
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="total_penduduk_periode.xlsx"');
+        header('Content-Disposition: attachment;filename="total_kk_penduduk_periode.xlsx"');
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'Kode Kecamatan');
-        $sheet->setCellValue('B1', 'Jenis Kelamin (L/P)');
-        $sheet->setCellValue('C1', 'Warga Negara (WNI/WNA)');
-        $sheet->setCellValue('D1', 'Periode (YYYY-MM)');
-        $sheet->setCellValue('E1', 'Jumlah Kelahiran');
-        $sheet->setCellValue('F1', 'Jumlah Kematian');
-        $sheet->setCellValue('G1', 'Jumlah Pendatang');
-        $sheet->setCellValue('H1', 'Jumlah Pindahan');
-        $sheet->setCellValue('I1', 'Total');
-        $sheet->setCellValue('L2', 'Keterangan kode kecamatan : ');
-        $sheet->setCellValue('L3', 'Nama Kecamatan');
-        $sheet->setCellValue('M3', 'Kode Kecamatan');
-        $sheet->setCellValue('L4', 'Blimbing');
-        $sheet->setCellValue('M4', '1');
-        $sheet->setCellValue('L5', 'Klojen');
-        $sheet->setCellValue('M5', '2');
-        $sheet->setCellValue('L6', 'Kedung Kandang');
-        $sheet->setCellValue('M6', '3');
-        $sheet->setCellValue('L7', 'Sukun');
-        $sheet->setCellValue('M7', '4');
-        $sheet->setCellValue('L8', 'Lowokwaru');
-        $sheet->setCellValue('M8', '5');
+        $sheet->setCellValue('B1', 'Periode (YYYY-MM)');
+        $sheet->setCellValue('C1', 'Jumlah KK');
+        $sheet->setCellValue('D1', 'L');
+        $sheet->setCellValue('E1', 'P');
+        $sheet->setCellValue('I2', 'Keterangan kode kecamatan : ');
+        $sheet->setCellValue('I3', 'Nama Kecamatan');
+        $sheet->setCellValue('J3', 'Kode Kecamatan');
+        $sheet->setCellValue('I4', 'Blimbing');
+        $sheet->setCellValue('J4', '1');
+        $sheet->setCellValue('I5', 'Klojen');
+        $sheet->setCellValue('J5', '2');
+        $sheet->setCellValue('I6', 'Kedung Kandang');
+        $sheet->setCellValue('J6', '3');
+        $sheet->setCellValue('I7', 'Sukun');
+        $sheet->setCellValue('J7', '4');
+        $sheet->setCellValue('I8', 'Lowokwaru');
+        $sheet->setCellValue('J8', '5');
 
         $writer = new Xlsx($spreadsheet);
         $writer->save("php://output");
@@ -170,36 +154,30 @@ class Total extends CI_Controller
 
             for ($i = 1; $i < count($sheetdata); $i++) {
                 $kecamatan = $sheetdata[$i][0];
-                $jk = $sheetdata[$i][1];
-                $warga_negara = $sheetdata[$i][2];
-                $periode = $sheetdata[$i][3];
-                $lahir = $sheetdata[$i][4];
-                $mati = $sheetdata[$i][5];
-                $pendatang = $sheetdata[$i][6];
-                $pindah = $sheetdata[$i][7];
-                $total = ($lahir + $pendatang) - ($mati + $pindah);
+                $periode = $sheetdata[$i][1];
+                $jumlah_kk = $sheetdata[$i][2];
+                $laki = $sheetdata[$i][3];
+                $perempuan = $sheetdata[$i][4];
+                $total = $laki + $perempuan;
 
                 $data = array(
                     'kecamatan_id' => $kecamatan,
-                    'jenis_kelamin' => $jk,
-                    'warga_negara' => $warga_negara,
                     'periode' => $periode,
-                    'lahir' => $lahir,
-                    'mati' => $mati,
-                    'pendatang' => $pendatang,
-                    'pindah' => $pindah,
+                    'jumlah_kk' => $jumlah_kk,
+                    'l' => $laki,
+                    'p' => $perempuan,
                     'total' => $total,
                     'created_at' => mdate('%Y-%m-%d %H:%i:%s', now()),
                     'updated_at' => mdate('%Y-%m-%d %H:%i:%s', now())
                 );
 
-                $this->data_penduduk->insert($data);
+                $this->data_kk->insert($data);
             }
             $this->session->set_flashdata('msg', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Sukses!</strong> Data berhasil ditambahkan</p></div>');
-            redirect('total', 'refresh');
+            redirect('totalkk', 'refresh');
         } else {
             $this->session->set_flashdata('msg', '<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Gagal!</strong> File excel tidak dapat ditemukan</p></div>');
-            redirect('total/uploadFile', 'refresh');
+            redirect('totalkk/uploadFile', 'refresh');
         }
     }
 }

@@ -14,7 +14,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?php echo base_url('total') ?>">Jumlah Penduduk</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo base_url('agama') ?>">Agama</a></li>
                     <li class="breadcrumb-item active">Tambah Jumlah Penduduk</li>
                 </ol>
             </div>
@@ -29,14 +29,14 @@
             <div class="col-12">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Upload File Jumlah Penduduk</h3>
+                        <h3 class="card-title">Upload File Jumlah Penduduk Menurut Agama</h3>
                     </div>
                     <!-- /.card-header -->
-                    <form action="<?php echo base_url('total/spreadsheet_import') ?>" method="POST" enctype="multipart/form-data">
+                    <form action="<?php echo base_url('agama/spreadsheet_import') ?>" method="POST" enctype="multipart/form-data">
                         <div class="card-body">
                             <div class="form-group">
                                 <div class="col-md-4">
-                                    <a href="<?php echo base_url('total/spreadsheet_format_download') ?>" class="btn btn-primary">Format File</a>
+                                    <a href="<?php echo base_url('agama/spreadsheet_format_download') ?>" class="btn btn-primary">Format File</a>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -47,7 +47,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-success">Upload</button>
-                            <a href="<?php echo base_url('total') ?>" class="btn btn-info">Kembali</a>
+                            <a href="<?php echo base_url('agama') ?>" class="btn btn-info">Kembali</a>
                         </div>
                     </form>
                 </div>

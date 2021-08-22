@@ -6,133 +6,137 @@ require FCPATH . '/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class Total extends CI_Controller
+class Agama extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->helper('date');
-        $this->load->model('PendudukModel', 'data_penduduk');
+        $this->load->model('AgamaModel', 'data_agama');
     }
 
     public function index()
     {
         $periode = (!empty($this->input->get('periode'))) ? $this->input->get('periode') : null;
-        $data['penduduk'] = $this->data_penduduk->getData($periode);
-        $this->load->view('pages/total', $data);
+        $data['agama'] = $this->data_agama->getData($periode);
+        $this->load->view('pages/agama', $data);
     }
 
     public function create()
     {
-        $this->load->view('pages/total-add');
+        $this->load->view('pages/agama-add');
     }
 
     public function store()
     {
         $kecamatan = $this->input->post('kecamatan');
-        $jk = $this->input->post('jenis_kelamin');
-        $warga_negara = $this->input->post('warga_negara');
         $periode = $this->input->post('periode');
-        $lahir = $this->input->post('lahir');
-        $mati = $this->input->post('mati');
-        $pendatang = $this->input->post('pendatang');
-        $pindah = $this->input->post('pindah');
-        $total = ($lahir + $pendatang) - ($mati + $pindah);
+        $islam = $this->input->post('islam');
+        $kristen = $this->input->post('kristen');
+        $katholik = $this->input->post('katholik');
+        $hindu = $this->input->post('hindu');
+        $buddha = $this->input->post('buddha');
+        $konghucu = $this->input->post('konghucu');
+        $penghayat_kepercayaan = $this->input->post('penghayat_kepercayaan');
+        $total = $islam + $kristen + $katholik + $hindu + $buddha + $konghucu + $penghayat_kepercayaan;
 
         $data = array(
             'kecamatan_id' => $kecamatan,
-            'jenis_kelamin' => $jk,
-            'warga_negara' => $warga_negara,
             'periode' => $periode,
-            'lahir' => $lahir,
-            'mati' => $mati,
-            'pendatang' => $pendatang,
-            'pindah' => $pindah,
+            'islam' => $islam,
+            'kristen' => $kristen,
+            'katholik' => $katholik,
+            'hindu' => $hindu,
+            'buddha' => $buddha,
+            'konghucu' => $konghucu,
+            'penghayat_kepercayaan' => $penghayat_kepercayaan,
             'total' => $total,
             'created_at' => mdate('%Y-%m-%d %H:%i:%s', now()),
             'updated_at' => mdate('%Y-%m-%d %H:%i:%s', now())
         );
 
-        $query = $this->data_penduduk->insert($data);
+        $query = $this->data_agama->insert($data);
         if ($query) {
             $this->session->set_flashdata('msg', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Sukses!</strong> Data berhasil ditambahkan</p></div>');
-            redirect('total');
+            redirect('agama');
         } else {
             $this->session->set_flashdata('msg', '<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Gagal!</strong> Data gagal ditambahkan</p></div>');
-            redirect('total/create');
+            redirect('agama/create');
         }
     }
 
     public function edit($id)
     {
-        $data['penduduk'] = $this->data_penduduk->getTotal($id);
-        $data['kecamatan'] = $this->data_penduduk->getKecamatan();
-        $this->load->view('pages/total-edit', $data);
+        $data['agama'] = $this->data_agama->getTotal($id);
+        $data['kecamatan'] = $this->data_agama->getKecamatan();
+        $this->load->view('pages/agama-edit', $data);
     }
 
     public function update()
     {
-        $id_total = $this->input->post('id');
+        $id_agama = $this->input->post('id');
         $kecamatan = $this->input->post('kecamatan');
-        $jk = $this->input->post('jenis_kelamin');
-        $warga_negara = $this->input->post('warga_negara');
         $periode = $this->input->post('periode');
-        $lahir = $this->input->post('lahir');
-        $mati = $this->input->post('mati');
-        $pendatang = $this->input->post('pendatang');
-        $pindah = $this->input->post('pindah');
-        $total = ($lahir + $pendatang) - ($mati + $pindah);
+        $islam = $this->input->post('islam');
+        $kristen = $this->input->post('kristen');
+        $katholik = $this->input->post('katholik');
+        $hindu = $this->input->post('hindu');
+        $buddha = $this->input->post('buddha');
+        $konghucu = $this->input->post('konghucu');
+        $penghayat_kepercayaan = $this->input->post('penghayat_kepercayaan');
+        $total = $islam + $kristen + $katholik + $hindu + $buddha + $konghucu + $penghayat_kepercayaan;
 
         $data = array(
             'kecamatan_id' => $kecamatan,
-            'jenis_kelamin' => $jk,
-            'warga_negara' => $warga_negara,
             'periode' => $periode,
-            'lahir' => $lahir,
-            'mati' => $mati,
-            'pendatang' => $pendatang,
-            'pindah' => $pindah,
+            'islam' => $islam,
+            'kristen' => $kristen,
+            'katholik' => $katholik,
+            'hindu' => $hindu,
+            'buddha' => $buddha,
+            'konghucu' => $konghucu,
+            'penghayat_kepercayaan' => $penghayat_kepercayaan,
             'total' => $total,
             'updated_at' => mdate('%Y-%m-%d %H:%i:%s', now())
         );
-        $query = $this->data_penduduk->update($id_total, $data);
+        $query = $this->data_agama->update($id_agama, $data);
         if ($query) {
             $this->session->set_flashdata('msg', '<div class="alert alert-info" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Sukses!</strong> Data berhasil diubah</p></div>');
-            redirect('total');
+            redirect('agama');
         }
     }
 
     public function destroy($id)
     {
-        $query = $this->data_penduduk->delete($id);
+        $query = $this->data_agama->delete($id);
         if ($query) {
             $this->session->set_flashdata('msg', '<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Sukses!</strong> Data berhasil dihapus</p></div>');
-            redirect('total', 'refresh');
+            redirect('agama', 'refresh');
         }
     }
 
     public function uploadFile()
     {
-        $this->load->view('pages/total-upload');
+        $this->load->view('pages/agama-upload');
     }
 
     public function spreadsheet_format_download()
     {
 
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="total_penduduk_periode.xlsx"');
+        header('Content-Disposition: attachment;filename="agama_penduduk_periode.xlsx"');
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'Kode Kecamatan');
-        $sheet->setCellValue('B1', 'Jenis Kelamin (L/P)');
-        $sheet->setCellValue('C1', 'Warga Negara (WNI/WNA)');
-        $sheet->setCellValue('D1', 'Periode (YYYY-MM)');
-        $sheet->setCellValue('E1', 'Jumlah Kelahiran');
-        $sheet->setCellValue('F1', 'Jumlah Kematian');
-        $sheet->setCellValue('G1', 'Jumlah Pendatang');
-        $sheet->setCellValue('H1', 'Jumlah Pindahan');
-        $sheet->setCellValue('I1', 'Total');
+        $sheet->setCellValue('B1', 'Periode (YYYY-MM)');
+        $sheet->setCellValue('C1', 'Islam');
+        $sheet->setCellValue('D1', 'Kristen');
+        $sheet->setCellValue('E1', 'Katholik');
+        $sheet->setCellValue('F1', 'Hindu');
+        $sheet->setCellValue('G1', 'Buddha');
+        $sheet->setCellValue('H1', 'Konghucu');
+        $sheet->setCellValue('I1', 'Penghayat Kepercayaan');
         $sheet->setCellValue('L2', 'Keterangan kode kecamatan : ');
         $sheet->setCellValue('L3', 'Nama Kecamatan');
         $sheet->setCellValue('M3', 'Kode Kecamatan');
@@ -170,36 +174,38 @@ class Total extends CI_Controller
 
             for ($i = 1; $i < count($sheetdata); $i++) {
                 $kecamatan = $sheetdata[$i][0];
-                $jk = $sheetdata[$i][1];
-                $warga_negara = $sheetdata[$i][2];
-                $periode = $sheetdata[$i][3];
-                $lahir = $sheetdata[$i][4];
-                $mati = $sheetdata[$i][5];
-                $pendatang = $sheetdata[$i][6];
-                $pindah = $sheetdata[$i][7];
-                $total = ($lahir + $pendatang) - ($mati + $pindah);
+                $periode = $sheetdata[$i][1];
+                $islam = $sheetdata[$i][2];
+                $kristen = $sheetdata[$i][3];
+                $katholik = $sheetdata[$i][4];
+                $hindu = $sheetdata[$i][5];
+                $buddha = $sheetdata[$i][6];
+                $konghucu = $sheetdata[$i][7];
+                $penghayat_kepercayaan = $sheetdata[$i][8];
+                $total = $islam + $kristen + $katholik + $hindu + $buddha + $konghucu + $penghayat_kepercayaan;
 
                 $data = array(
                     'kecamatan_id' => $kecamatan,
-                    'jenis_kelamin' => $jk,
-                    'warga_negara' => $warga_negara,
                     'periode' => $periode,
-                    'lahir' => $lahir,
-                    'mati' => $mati,
-                    'pendatang' => $pendatang,
-                    'pindah' => $pindah,
+                    'islam' => $islam,
+                    'kristen' => $kristen,
+                    'katholik' => $katholik,
+                    'hindu' => $hindu,
+                    'buddha' => $buddha,
+                    'konghucu' => $konghucu,
+                    'penghayat_kepercayaan' => $penghayat_kepercayaan,
                     'total' => $total,
                     'created_at' => mdate('%Y-%m-%d %H:%i:%s', now()),
                     'updated_at' => mdate('%Y-%m-%d %H:%i:%s', now())
                 );
 
-                $this->data_penduduk->insert($data);
+                $this->data_agama->insert($data);
             }
             $this->session->set_flashdata('msg', '<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Sukses!</strong> Data berhasil ditambahkan</p></div>');
-            redirect('total', 'refresh');
+            redirect('agama', 'refresh');
         } else {
             $this->session->set_flashdata('msg', '<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert">×</button><strong>Gagal!</strong> File excel tidak dapat ditemukan</p></div>');
-            redirect('total/uploadFile', 'refresh');
+            redirect('agama/uploadFile', 'refresh');
         }
     }
 }

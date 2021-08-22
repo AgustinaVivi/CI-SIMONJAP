@@ -84,6 +84,30 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?php echo base_url('agama') ?>" class="nav-link">
+                                <i class="nav-icon fas fa-pray"></i>
+                                <p>Agama Penduduk</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-id-card"></i>
+                                <p>Identitas Penduduk</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('totalkk') ?>" class="nav-link">
+                                <i class="nav-icon fas fa-house-user"></i>
+                                <p>Jumlah KK</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('umur') ?>" class="nav-link">
+                                <i class="nav-icon fas fa-user-clock"></i>
+                                <p>Kelompok Umur</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?php echo base_url('users') ?>" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>User</p>

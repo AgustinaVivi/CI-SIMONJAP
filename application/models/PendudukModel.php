@@ -39,6 +39,31 @@ class PendudukModel extends CI_Model
         return $this->db->get('total_penduduk')->result();
     }
 
+    public function getJumlahLahir()
+    {
+        $this->db->select_sum('lahir');
+        return $this->db->get('total_penduduk')->result();
+    }
+
+    public function getJumlahMati()
+    {
+        $this->db->select_sum('mati');
+        return $this->db->get('total_penduduk')->result();
+    }
+
+    public function getJumlahPindah()
+    {
+        $this->db->select_sum('pindah');
+        return $this->db->get('total_penduduk')->result();
+    }
+
+    public function getJumlahPendatang()
+    {
+        $this->db->select_sum('pendatang');
+        return $this->db->get('total_penduduk')->result();
+    }
+
+
     public function insert($data)
     {
         return $this->db->insert('total_penduduk', $data);

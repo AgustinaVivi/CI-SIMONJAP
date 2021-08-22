@@ -30,4 +30,10 @@ Web ini berisikan sistem informasi rekap jumlah penduduk Kota Malang yang didapa
 
     ``php index.php tools seed TotalPendudukSeeder``
 
+    ``php index.php tools seed AgamaSeeder``
+
+    ``php index.php tools seed UmurSeeder``
+
+    ``php index.php tools seed TotalKkSeeder``
+
 7. Untuk menjalankan aplikasi, buka browser anda lalu ketikkan alamat [localhost/simonjap](https://localhost/simonjap)
