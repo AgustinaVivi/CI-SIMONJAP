@@ -120,6 +120,57 @@ class Agama extends CI_Controller
         $this->load->view('pages/agama-upload');
     }
 
+    public function downloadFile()
+    {
+        $this->load->view('pages/agama-download');
+    }
+
+    public function spreadsheet_download()
+    {
+        $periode = $this->input->post('periode');
+        $data = $this->data_agama->getData($periode);
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="Laporan_AgamaPenduduk"'.$periode.'".xlsx"');
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'Laporan Jumlah Data Agama Penduduk');
+        $sheet->setCellValue('A2', 'Disdukcapil Kota Malang');
+        $sheet->setCellValue('A4', 'Periode : '. $periode);
+        $sheet->setCellValue('A5', 'No');
+        $sheet->setCellValue('B5', 'Kecamatan');
+        $sheet->setCellValue('C5', 'Islam');
+        $sheet->setCellValue('D5', 'Kristen');
+        $sheet->setCellValue('E5', 'Katholik');
+        $sheet->setCellValue('F5', 'Hindu');
+        $sheet->setCellValue('G5', 'Buddha');
+        $sheet->setCellValue('H5', 'Konghucu');
+        $sheet->setCellValue('I5', 'Penghayat Kepercayaan');
+        $sheet->setCellValue('j5', 'Total Penduduk');
+        
+        $i=6;
+        $no=1;
+
+        foreach ($data as $total) {
+            $sheet->setCellValue('A'.$i, $no);
+            $sheet->setCellValue('B'.$i, $total->nama_kecamatan);
+            $sheet->setCellValue('C'.$i, $total->islam);
+            $sheet->setCellValue('D'.$i, $total->kristen);
+            $sheet->setCellValue('E'.$i, $total->katholik);
+            $sheet->setCellValue('F'.$i, $total->hindu);
+            $sheet->setCellValue('G'.$i, $total->buddha);
+            $sheet->setCellValue('H'.$i, $total->konghucu);
+            $sheet->setCellValue('I'.$i, $total->penghayat_kepercayaan);
+            $sheet->setCellValue('J'.$i, $total->total);
+            $no++;
+            $i++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save("php://output");
+    }
+
     public function spreadsheet_format_download()
     {
 

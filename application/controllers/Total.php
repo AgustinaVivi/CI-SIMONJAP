@@ -116,6 +116,55 @@ class Total extends CI_Controller
         $this->load->view('pages/total-upload');
     }
 
+    public function downloadFile()
+    {
+        $this->load->view('pages/total-download');
+    }
+
+    public function spreadsheet_download()
+    {
+        $periode = $this->input->post('periode');
+        $data = $this->data_penduduk->getData($periode);
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="Laporan_TotalPenduduk"'.$periode.'".xlsx"');
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'Laporan Jumlah Data Penduduk');
+        $sheet->setCellValue('A2', 'Disdukcapil Kota Malang');
+        $sheet->setCellValue('A4', 'Periode : '. $periode);
+        $sheet->setCellValue('A5', 'No');
+        $sheet->setCellValue('B5', 'Kecamatan');
+        $sheet->setCellValue('C5', 'Jenis Kelamin');
+        $sheet->setCellValue('D5', 'Warga Negara');
+        $sheet->setCellValue('E5', 'Jumlah Kelahiran');
+        $sheet->setCellValue('F5', 'Jumlah Kematian');
+        $sheet->setCellValue('G5', 'Jumlah Pendatang');
+        $sheet->setCellValue('H5', 'Jumlah Pindahan');
+        $sheet->setCellValue('I5', 'Total Penduduk');
+        
+        $i=6;
+        $no=1;
+
+        foreach ($data as $total) {
+            $sheet->setCellValue('A'.$i, $no);
+            $sheet->setCellValue('B'.$i, $total->nama_kecamatan);
+            $sheet->setCellValue('C'.$i, $total->jenis_kelamin);
+            $sheet->setCellValue('D'.$i, $total->warga_negara);
+            $sheet->setCellValue('E'.$i, $total->lahir);
+            $sheet->setCellValue('F'.$i, $total->mati);
+            $sheet->setCellValue('G'.$i, $total->pendatang);
+            $sheet->setCellValue('H'.$i, $total->pindah);
+            $sheet->setCellValue('I'.$i, $total->total);
+            $no++;
+            $i++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save("php://output");
+    }
+
     public function spreadsheet_format_download()
     {
 

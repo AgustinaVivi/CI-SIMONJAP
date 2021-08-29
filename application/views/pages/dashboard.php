@@ -373,6 +373,44 @@
         </div>
         <br>
         <h3>Data Identitas Penduduk</h3>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-id-card"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Sudah rekam E-KTP</span>
+                        <span class="info-box-number"><?php echo $punya_ktp[0]->punya_ktp ?></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-id-card"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Belum rekam E-KTP</span>
+                        <span class="info-box-number"><?php $wajib = $wajib_ktp[0]->total_wajib_ktp; $sudah = $punya_ktp[0]->punya_ktp; echo $wajib-$sudah ?></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-scroll"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Sudah ada Akta Lahir</span>
+                        <span class="info-box-number"><?php echo $punya_akta[0]->punya_akta ?></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-scroll"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Belum ada Akta Lahir</span>
+                        <span class="info-box-number"><?php $wajib = $wajib_akta[0]->wajib_akta; $sudah = $punya_akta[0]->punya_akta; echo $wajib-$sudah ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

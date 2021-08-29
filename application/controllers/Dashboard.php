@@ -10,6 +10,7 @@ class Dashboard extends CI_Controller
         $this->load->model('AgamaModel', 'data_agama');
         $this->load->model('UmurModel', 'data_umur');
         $this->load->model('KkModel', 'data_kk');
+        $this->load->model('IdentitasModel', 'data_identitas');
     }
     
     public function index() {
@@ -41,7 +42,10 @@ class Dashboard extends CI_Controller
         $data['umur55_59'] = $this->data_umur->getJumlahUmur('umur55_59');
         $data['umur60_64'] = $this->data_umur->getJumlahUmur('umur60_64');
         $data['umur65_atas'] = $this->data_umur->getJumlahUmur('umur65_atas');
-        
+        $data['wajib_akta'] = $this->data_identitas->getJumlahWajibAkta();
+        $data['punya_akta'] = $this->data_identitas->getJumlahPunyaAkta();
+        $data['wajib_ktp'] = $this->data_identitas->getJumlahWajibKTP();
+        $data['punya_ktp'] = $this->data_identitas->getJumlahPunyaKTP();
         $this->load->view('pages/dashboard', $data);
      }
 }

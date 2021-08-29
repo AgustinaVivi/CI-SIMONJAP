@@ -32,6 +32,13 @@
                         <div class="card-tools">
                             <div class="row">
                                 <div>
+                                    <a href="<?php echo base_url('total/downloadFile') ?>" class="btn btn-block btn-outline-info">
+                                        <i class="fas fa-download"></i>
+                                        Download Data
+                                    </a>
+                                </div>
+                                <p>&ensp;</p>
+                                <div>
                                     <a href="<?php echo base_url('total/uploadFile') ?>" class="btn btn-block btn-outline-success">
                                         <i class="fas fa-upload"></i>
                                         Upload Data

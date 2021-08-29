@@ -148,6 +148,71 @@ class Umur extends CI_Controller
         $this->load->view('pages/umur-upload');
     }
 
+    public function downloadFile()
+    {
+        $this->load->view('pages/umur-download');
+    }
+
+    public function spreadsheet_download()
+    {
+        $periode = $this->input->post('periode');
+        $data = $this->data_umur->getData($periode);
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="Laporan_UmurPenduduk"'.$periode.'".xlsx"');
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'Laporan Jumlah Data Umur Penduduk');
+        $sheet->setCellValue('A2', 'Disdukcapil Kota Malang');
+        $sheet->setCellValue('A4', 'Periode : '. $periode);
+        $sheet->setCellValue('A5', 'No');
+        $sheet->setCellValue('B5', 'Kecamatan');
+        $sheet->setCellValue('C5', '0-4 TH');
+        $sheet->setCellValue('D5', '5-9 TH');
+        $sheet->setCellValue('E5', '10-14 TH');
+        $sheet->setCellValue('F5', '15-19 TH');
+        $sheet->setCellValue('G5', '20-24 TH');
+        $sheet->setCellValue('H5', '25-29 TH');
+        $sheet->setCellValue('I5', '30-34 TH');
+        $sheet->setCellValue('J5', '35-39 TH');
+        $sheet->setCellValue('K5', '40-44 TH');
+        $sheet->setCellValue('L5', '45-49 TH');
+        $sheet->setCellValue('M5', '50-54 TH');
+        $sheet->setCellValue('N5', '55-59 TH');
+        $sheet->setCellValue('O5', '60-64 TH');
+        $sheet->setCellValue('P5', '>=65 TH');
+        $sheet->setCellValue('Q5', 'Total Penduduk');
+        
+        $i=6;
+        $no=1;
+
+        foreach ($data as $total) {
+            $sheet->setCellValue('A'.$i, $no);
+            $sheet->setCellValue('B'.$i, $total->nama_kecamatan);
+            $sheet->setCellValue('C'.$i, $total->umur0_4);
+            $sheet->setCellValue('D'.$i, $total->umur5_9);
+            $sheet->setCellValue('E'.$i, $total->umur10_14);
+            $sheet->setCellValue('F'.$i, $total->umur15_19);
+            $sheet->setCellValue('G'.$i, $total->umur20_24);
+            $sheet->setCellValue('H'.$i, $total->umur25_29);
+            $sheet->setCellValue('I'.$i, $total->umur30_34);
+            $sheet->setCellValue('J'.$i, $total->umur35_39);
+            $sheet->setCellValue('K'.$i, $total->umur40_44);
+            $sheet->setCellValue('L'.$i, $total->umur45_49);
+            $sheet->setCellValue('M'.$i, $total->umur50_54);
+            $sheet->setCellValue('N'.$i, $total->umur55_59);
+            $sheet->setCellValue('O'.$i, $total->umur60_64);
+            $sheet->setCellValue('P'.$i, $total->umur65_atas);
+            $sheet->setCellValue('Q'.$i, $total->total);
+            $no++;
+            $i++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save("php://output");
+    }
+
     public function spreadsheet_format_download()
     {
 
